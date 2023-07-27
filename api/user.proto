@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package userssrv;
+
+option go_package = "/pb";
+
+service UserService {
+  rpc VerifyPassword(VerifyPasswordRequest) returns (VerifyPasswordReply);
+}
+
+message VerifyPasswordRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message VerifyPasswordReply {
+  message User { string id = 1; }
+  User user = 1;
+}

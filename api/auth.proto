@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package userssrv;
+
+option go_package = "/pb";
+
+service AuthService {
+  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenReply);
+}
+
+message VerifyTokenRequest { string token = 1; }
+
+message VerifyTokenReply {
+  message User { string id = 1; }
+  User user = 1;
+}
