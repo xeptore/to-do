@@ -10,7 +10,7 @@ RUN set -ex && \
     mv ./upx-4.0.2-amd64_linux/upx . && \
     ./upx --no-color --mono --no-progress --ultra-brute --no-backup ./bin/user && \
     ./upx --test ./bin/user
-FROM gcr.io/distroless/base-debian11:nonroot
+FROM scratch
 COPY --from=build --chown=nonroot:nonroot /app/bin/user user
 ENV TZ=UTC
 ENTRYPOINT [ "./user" ]
