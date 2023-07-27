@@ -11,6 +11,6 @@ RUN set -ex && \
     ./upx --no-color --mono --no-progress --ultra-brute --no-backup ./bin/user && \
     ./upx --test ./bin/user
 FROM scratch
-COPY --from=build --chown=nonroot:nonroot /app/bin/user user
+COPY --from=build /app/bin/user user
 ENV TZ=UTC
 ENTRYPOINT [ "./user" ]

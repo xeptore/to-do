@@ -11,6 +11,6 @@ RUN set -ex && \
     ./upx --no-color --mono --no-progress --ultra-brute --no-backup ./bin/auth && \
     ./upx --test ./bin/auth
 FROM scratch
-COPY --from=build --chown=nonroot:nonroot /app/bin/auth auth
+COPY --from=build /app/bin/auth auth
 ENV TZ=UTC
 ENTRYPOINT [ "./auth" ]
