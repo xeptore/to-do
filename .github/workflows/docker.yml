@@ -67,7 +67,7 @@ jobs:
           push: true
           pull: true
           context: ${{ matrix.package }}
-          file: Dockerfile
+          file: ${{ matrix.package }}/Dockerfile
           no-cache: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
