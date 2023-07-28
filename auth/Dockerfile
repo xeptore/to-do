@@ -13,4 +13,5 @@ RUN set -ex && \
     ./upx --test ./bin/auth
 FROM scratch
 COPY --from=build /app/bin/auth /auth
+ENV TZ=UTC
 ENTRYPOINT [ "/auth" ]

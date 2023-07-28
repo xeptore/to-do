@@ -13,4 +13,5 @@ RUN set -ex && \
     ./upx --test ./bin/user
 FROM scratch
 COPY --from=build /app/bin/user /user
+ENV TZ=UTC
 ENTRYPOINT [ "/user" ]

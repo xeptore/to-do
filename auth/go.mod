@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/goccy/go-json v0.10.2
+	github.com/joho/godotenv v1.5.1
 	github.com/lestrrat-go/jwx/v2 v2.0.11
 	github.com/nats-io/nats.go v1.28.0
 	github.com/rs/zerolog v1.29.1

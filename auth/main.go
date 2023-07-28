@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
+	"errors"
 	"net"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc"
@@ -20,7 +22,21 @@ import (
 func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
+
 	log := zerolog.New(zerolog.NewConsoleWriter(func(w *zerolog.ConsoleWriter) { w.Out = os.Stderr; w.TimeFormat = time.RFC3339 })).With().Timestamp().Logger().Level(zerolog.TraceLevel)
+
+	if err := godotenv.Load(".env"); nil != err {
+		if !errors.Is(err, os.ErrNotExist) {
+			log.Fatal().Err(err).Msg("unexpected error while loading environment variables from .env file")
+		}
+		log.Warn().Msg(".env file not found")
+	}
+
+	tz, ok := os.LookupEnv("TZ")
+	if !ok || tz != "UTC" {
+		log.Fatal().Msg("TZ environment variable must be set to UTC")
+	}
+
 	jeydubti := jwt.New([]byte(os.Getenv("JWT_SECRET")))
 	authService := auth.New(jeydubti)
 	grpcSrv := grpc.NewServer(grpc.ConnectionTimeout(time.Second*3), grpc.MaxConcurrentStreams(10))
