@@ -14,7 +14,7 @@ type Config struct {
 	v gjson.Result
 }
 
-func Load(ctx context.Context, r io.Reader) (*Config, error) {
+func FromYaml(ctx context.Context, r io.Reader) (*Config, error) {
 	decoder := yaml.NewDecoder(r)
 	var d map[string]any
 	if err := decoder.Decode(&d); nil != err {

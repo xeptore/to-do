@@ -34,7 +34,7 @@ func main() {
 		}
 		log.Warn().Msg("config file was not found")
 	}
-	cfg, err := config.Load(ctx, f)
+	cfg, err := config.FromYaml(ctx, f)
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to load configuration from config file")
 	}
