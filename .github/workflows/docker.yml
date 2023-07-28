@@ -55,15 +55,15 @@ jobs:
           tar -xvf upx-4.0.2-amd64_linux.tar.xz upx-4.0.2-amd64_linux/upx
           mv ./upx-4.0.2-amd64_linux/upx .
           cd -
-          "$temp_dir/upx" --no-color --mono --no-progress --ultra-brute --no-backup ./bin/bot
-          "$temp_dir/upx" --test ./bin/bot
+          "$temp_dir/upx" --no-color --mono --no-progress --ultra-brute --no-backup ./${{ matrix.package }}/bin/${{ matrix.package }}
+          "$temp_dir/upx" --test ./${{ matrix.package }}/bin/${{ matrix.package }}
           rm -rfv "$temp_dir"
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: bot
           path: ./${{ matrix.package }}/bin/${{ matrix.package }}
-  main:
+  docker:
     name: Build Docker Image - ${{ matrix.package }}
     runs-on: ubuntu-latest
     permissions:
