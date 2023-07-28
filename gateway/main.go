@@ -14,6 +14,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
 	pbauth "github.com/xeptore/to-do/api/pb/auth"
+	pbtodo "github.com/xeptore/to-do/api/pb/todo"
 	pbuser "github.com/xeptore/to-do/api/pb/user"
 	"github.com/xeptore/to-do/config"
 	"google.golang.org/grpc"
@@ -82,11 +83,18 @@ func main() {
 	}
 	authGrpcClient := pbauth.NewAuthServiceClient(authGrpcConn)
 
-	srv := api.NewServer(userGrpcClient, authGrpcClient, userNatsClient, authNatsClient)
+	todoGrpcConn, err := grpc.Dial(cfg.Str("todo.grpc_address"), []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}...)
+	if nil != err {
+		log.Fatal().Err(err).Msg("failed to connect to todo grpc service")
+	}
+	todoGrpcClient := pbtodo.NewTodoServiceClient(todoGrpcConn)
+
+	srv := api.NewServer(userGrpcClient, authGrpcClient, todoGrpcClient, userNatsClient, authNatsClient)
 
 	router := httprouter.New()
 	router.POST("/users", srv.CreateUser)
 	router.POST("/auth/login", srv.Login)
+	router.GET("/todo-lists/:id", srv.GetTodoList)
 	httpServer := http.Server{Addr: cfg.Str("server.listen_addr"), Handler: router}
 
 	done := make(chan bool)

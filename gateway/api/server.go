@@ -10,12 +10,14 @@ import (
 	"github.com/xeptore/to-do/user/user"
 
 	pbauth "github.com/xeptore/to-do/api/pb/auth"
+	pbtodo "github.com/xeptore/to-do/api/pb/todo"
 	pbuser "github.com/xeptore/to-do/api/pb/user"
 )
 
 type Server struct {
 	userGrpc pbuser.UserServiceClient
 	authGrpc pbauth.AuthServiceClient
+	todoGrpc pbtodo.TodoServiceClient
 	userNats *nats.EncodedConn
 	authNats *nats.EncodedConn
 }
@@ -23,10 +25,11 @@ type Server struct {
 func NewServer(
 	userGrpc pbuser.UserServiceClient,
 	authGrpc pbauth.AuthServiceClient,
+	todoGrpc pbtodo.TodoServiceClient,
 	userNats *nats.EncodedConn,
 	authNats *nats.EncodedConn,
 ) *Server {
-	return &Server{userGrpc: userGrpc, authGrpc: authGrpc, userNats: userNats, authNats: authNats}
+	return &Server{userGrpc: userGrpc, authGrpc: authGrpc, todoGrpc: todoGrpc, userNats: userNats, authNats: authNats}
 }
 
 func (s *Server) CreateUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -68,6 +71,41 @@ func (s *Server) Login(w http.ResponseWriter, r *http.Request, ps httprouter.Par
 	w.Header().Add("content-type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	b, err := json.MarshalContext(ctx, res)
+	if nil != err {
+		// TODO: handle error
+	}
+	if n, err := w.Write(b); nil != err {
+		// TODO: handle error
+	} else if n != len(b) {
+		// TODO: handle error
+	}
+}
+
+type GetTodoListResult struct {
+	ID          string
+	Name        string
+	Description string
+	CreatedByID string
+}
+
+func (s *Server) GetTodoList(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	id := ps.ByName("id")
+	ctx := r.Context()
+
+	res, err := s.todoGrpc.GetList(ctx, &pbtodo.GetListRequest{Id: id})
+	if nil != err {
+		// TODO: handle error
+	}
+
+	w.Header().Add("content-type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	out := GetTodoListResult{
+		ID:          res.Id,
+		Name:        res.Name,
+		Description: res.Description,
+		CreatedByID: res.CreatedById,
+	}
+	b, err := json.MarshalContext(ctx, out)
 	if nil != err {
 		// TODO: handle error
 	}
