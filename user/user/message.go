@@ -16,9 +16,11 @@ import (
 func (s *UserService) HandleMessage(ctx context.Context, msg *nats.Msg) []byte {
 	command := gjson.GetBytes(msg.Data, "command").String()
 	switch command {
+	// TODO: export available commands as constants that can be imported by other services.
 	case "create_user":
 		return s.Create(ctx, gjson.GetBytes(msg.Data, "payload").Raw)
 	default:
+		// TODO: return valid typed error that can be handled by the client
 		return []byte("unknown command")
 	}
 }
@@ -36,15 +38,18 @@ type CreateResult struct {
 func (s *UserService) Create(ctx context.Context, in string) []byte {
 	var req CreateRequest
 	if err := json.UnmarshalContext(ctx, []byte(in), &req); nil != err {
+		// TODO: return typed validation error that can be handled by the client
 		return []byte("invalid request")
 	}
+
 	userID, err := gonanoid.New(16)
 	if nil != err {
+		// TODO: return typed internal error that can be handled by the client
+		// TODO: log the error
 		return []byte("failed to generate userID")
 	}
 
-	// TODO: store hashed passwords
-
+	// FIXME: store hashed passwords
 	model := m.Users{
 		ID:          userID,
 		TheName:     req.Name,
@@ -53,16 +58,25 @@ func (s *UserService) Create(ctx context.Context, in string) []byte {
 		CreatedAt:   time.Now(),
 	}
 	if res, err := t.Users.INSERT(t.Users.AllColumns).MODEL(model).ExecContext(ctx, s.db); nil != err {
+		// TODO: handle duplicate email error, and return validation error
+		// TODO: return typed internal error that can be handled by the client
+		// TODO: log the error
 		return []byte("failed to execute user insert statement")
 	} else if affectedRows, err := res.RowsAffected(); nil != err {
+		// TODO: return typed internal error that can be handled by the client
+		// TODO: log the error
 		return []byte("failed to get number of affected rows by user insert query execution")
 	} else if affectedRows != 1 {
+		// TODO: return typed internal error that can be handled by the client
+		// TODO: log the error
 		return []byte("expected only 1 row to be affected by user insert query execution")
 	}
 
 	res := CreateResult{UserID: userID}
 	out, err := json.MarshalContext(ctx, res)
 	if nil != err {
+		// TODO: return typed internal error that can be handled by the client
+		// TODO: log the error
 		return []byte("failed to prepare response")
 	}
 

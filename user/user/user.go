@@ -7,10 +7,10 @@ import (
 
 	"github.com/go-jet/jet/v2/postgres"
 	"github.com/go-jet/jet/v2/qrm"
+	pbuser "github.com/xeptore/to-do/api/pb/user"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	pbuser "github.com/xeptore/to-do/api/pb/user"
 	m "github.com/xeptore/to-do/user/db/gen/todo/public/model"
 	t "github.com/xeptore/to-do/user/db/gen/todo/public/table"
 )
@@ -26,6 +26,7 @@ func New(db *sql.DB) *UserService {
 
 func (s *UserService) VerifyPassword(ctx context.Context, in *pbuser.VerifyPasswordRequest) (*pbuser.VerifyPasswordReply, error) {
 	var model m.Users
+	// FIXME: this needs to be moved to its own repository package
 	stmt := t.Users.
 		SELECT(t.Users.ID).
 		WHERE(
@@ -38,7 +39,9 @@ func (s *UserService) VerifyPassword(ctx context.Context, in *pbuser.VerifyPassw
 		if errors.Is(err, qrm.ErrNoRows) {
 			return nil, status.Error(codes.NotFound, "user was not found")
 		}
+		// TODO: log the error
 		return nil, status.Error(codes.Internal, "failed to query user")
 	}
+
 	return &pbuser.VerifyPasswordReply{User: &pbuser.VerifyPasswordReply_User{Id: model.ID}}, nil
 }

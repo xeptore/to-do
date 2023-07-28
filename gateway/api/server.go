@@ -6,12 +6,11 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/julienschmidt/httprouter"
 	"github.com/nats-io/nats.go"
-	"github.com/xeptore/to-do/auth/auth"
-	"github.com/xeptore/to-do/user/user"
-
 	pbauth "github.com/xeptore/to-do/api/pb/auth"
 	pbtodo "github.com/xeptore/to-do/api/pb/todo"
 	pbuser "github.com/xeptore/to-do/api/pb/user"
+	"github.com/xeptore/to-do/auth/auth"
+	"github.com/xeptore/to-do/user/user"
 )
 
 type Server struct {
@@ -36,23 +35,28 @@ func (s *Server) CreateUser(w http.ResponseWriter, r *http.Request, ps httproute
 	var req user.CreateRequest
 	ctx := r.Context()
 	if err := json.NewDecoder(r.Body).DecodeContext(ctx, &req); nil != err {
-		// TODO: handle error
+		// TODO: respond with validation error
+		return
 	}
+
+	// FIXME: "command", and "payload" parameters must be sent as the request data
 	var res user.CreateResult
 	if err := s.userNats.RequestWithContext(ctx, "request", req, &res); nil != err {
-		// TODO: handle error
+		// TODO: respond with internal error
+		// TODO: log the error
+		return
 	}
 
 	w.Header().Add("content-type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	b, err := json.MarshalContext(ctx, res)
 	if nil != err {
-		// TODO: handle error
+		// TODO: log the error
 	}
 	if n, err := w.Write(b); nil != err {
-		// TODO: handle error
+		// TODO: log the error
 	} else if n != len(b) {
-		// TODO: handle error
+		// TODO: log the error
 	}
 }
 
@@ -60,24 +64,28 @@ func (s *Server) Login(w http.ResponseWriter, r *http.Request, ps httprouter.Par
 	var req auth.LoginRequest
 	ctx := r.Context()
 	if err := json.NewDecoder(r.Body).DecodeContext(ctx, &req); nil != err {
-		// TODO: handle error
+		// TODO: respond with validation error
+		return
 	}
 
+	// FIXME: "command", and "payload" parameters must be sent as the request data
 	var res auth.LoginResult
 	if err := s.authNats.RequestWithContext(ctx, "request", req, &res); nil != err {
-		// TODO: handle error
+		// TODO: respond with internal error
+		// TODO: log the error
+		return
 	}
 
 	w.Header().Add("content-type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	b, err := json.MarshalContext(ctx, res)
 	if nil != err {
-		// TODO: handle error
+		// TODO: log the error
 	}
 	if n, err := w.Write(b); nil != err {
-		// TODO: handle error
+		// TODO: log the error
 	} else if n != len(b) {
-		// TODO: handle error
+		// TODO: log the error
 	}
 }
 
@@ -90,11 +98,14 @@ type GetTodoListResult struct {
 
 func (s *Server) GetTodoList(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	id := ps.ByName("id")
-	ctx := r.Context()
+	// TODO: add validation
 
+	ctx := r.Context()
 	res, err := s.todoGrpc.GetList(ctx, &pbtodo.GetListRequest{Id: id})
 	if nil != err {
-		// TODO: handle error
+		// TODO: respond with internal error
+		// TODO: log the error
+		return
 	}
 
 	w.Header().Add("content-type", "application/json")
@@ -107,11 +118,11 @@ func (s *Server) GetTodoList(w http.ResponseWriter, r *http.Request, ps httprout
 	}
 	b, err := json.MarshalContext(ctx, out)
 	if nil != err {
-		// TODO: handle error
+		// TODO: log the error
 	}
 	if n, err := w.Write(b); nil != err {
-		// TODO: handle error
+		// TODO: log the error
 	} else if n != len(b) {
-		// TODO: handle error
+		// TODO: log the error
 	}
 }

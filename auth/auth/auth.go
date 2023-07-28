@@ -22,6 +22,7 @@ func New(j jwt.JWT, u pbuser.UserServiceClient) *AuthService {
 func (s *AuthService) VerifyToken(ctx context.Context, in *pbauth.VerifyTokenRequest) (*pbauth.VerifyTokenReply, error) {
 	res, err := s.j.VerifyToken(ctx, in.Token)
 	if nil != err {
+		// FIXME: return proper grpc-compatible error
 		return nil, fmt.Errorf("auth: failed to verify token: %v", err)
 	}
 	return &pbauth.VerifyTokenReply{User: &pbauth.VerifyTokenReply_User{Id: res.UserID}}, nil

@@ -7,6 +7,6 @@ import (
 )
 
 func (s *TodoService) HandleMessage(ctx context.Context, msg *nats.Msg) []byte {
-	// TODO
+	// TODO: implement the nats on-message handler that distributes the command to its respective handler.
 	return nil
 }
