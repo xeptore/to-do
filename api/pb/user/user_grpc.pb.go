@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_VerifyPassword_FullMethodName = "/userssrv.UserService/VerifyPassword"
+	UserService_VerifyPassword_FullMethodName = "/UserService/VerifyPassword"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -96,7 +96,7 @@ func _UserService_VerifyPassword_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UserService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "userssrv.UserService",
+	ServiceName: "UserService",
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

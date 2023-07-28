@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AuthService_VerifyToken_FullMethodName = "/userssrv.AuthService/VerifyToken"
+	AuthService_VerifyToken_FullMethodName = "/AuthService/VerifyToken"
 )
 
 // AuthServiceClient is the client API for AuthService service.
@@ -96,7 +96,7 @@ func _AuthService_VerifyToken_Handler(srv interface{}, ctx context.Context, dec 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AuthService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "userssrv.AuthService",
+	ServiceName: "AuthService",
 	HandlerType: (*AuthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

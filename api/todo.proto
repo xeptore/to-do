@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "/todo";
+
+service TodoService {
+  rpc GetList(GetListRequest) returns (GetListReply);
+}
+
+message GetListRequest {
+  string id = 1;
+}
+
+message GetListReply {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string created_by_id = 4;
+}

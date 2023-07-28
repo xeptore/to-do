@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-package userssrv;
-
 option go_package = "/user";
 
 service UserService {
@@ -14,6 +12,8 @@ message VerifyPasswordRequest {
 }
 
 message VerifyPasswordReply {
-  message User { string id = 1; }
+  message User {
+    string id = 1;
+  }
   User user = 1;
 }
