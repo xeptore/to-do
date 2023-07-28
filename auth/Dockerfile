@@ -3,7 +3,8 @@ RUN apk update && apk upgrade && apk add --no-cache make jq tar xz musl-dev linu
 WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download -x
-COPY . .
+COPY .. .
+WORKDIR /app/auth
 RUN make build
 RUN set -ex && \
     wget https://github.com/upx/upx/releases/download/v4.0.2/upx-4.0.2-amd64_linux.tar.xz && \
