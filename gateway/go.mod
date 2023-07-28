@@ -8,6 +8,7 @@ require (
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/nats-io/nats.go v1.28.0
 	github.com/rs/zerolog v1.29.1
+	github.com/xeptore/to-do/api v0.0.0-20230728105800-09a820404e56
 	github.com/xeptore/to-do/auth v0.0.0-20230728064748-36d3fa33549d
 	github.com/xeptore/to-do/config v0.0.0-20230728053945-a92b8ccd8cc5
 	github.com/xeptore/to-do/user v0.0.0-20230728064748-36d3fa33549d

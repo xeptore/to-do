@@ -9,6 +9,7 @@ require (
 	github.com/nats-io/nats.go v1.28.0
 	github.com/rs/zerolog v1.29.1
 	github.com/tidwall/gjson v1.15.0
+	github.com/xeptore/to-do/api v0.0.0-20230728105800-09a820404e56
 	github.com/xeptore/to-do/config v0.0.0-20230728053945-a92b8ccd8cc5
 	google.golang.org/grpc v1.57.0
 )
