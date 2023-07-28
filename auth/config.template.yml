@@ -1,0 +1,6 @@
+user:
+  grpc_address:
+grpc:
+  listen_address:
+nats:
+  address:

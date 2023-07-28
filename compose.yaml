@@ -1,0 +1,81 @@
+name: todo
+services:
+  gateway:
+    image: ghcr.io/xeptore/to-do/gateway:latest
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        read_only: true
+        source: ./gateway/config.yml
+        target: /config.yml
+      - type: bind
+        read_only: true
+        source: ./gateway/.env
+        target: /.env
+    ports:
+      - 127.0.0.1:8080:8080 # replace with the port specified in config.yml
+  auth:
+    image: ghcr.io/xeptore/to-do/auth:latest
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        read_only: true
+        source: ./auth/config.yml
+        target: /config.yml
+      - type: bind
+        read_only: true
+        source: ./auth/.env
+        target: /.env
+  user:
+    image: ghcr.io/xeptore/to-do/user:latest
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        read_only: true
+        source: ./user/config.yml
+        target: /config.yml
+      - type: bind
+        read_only: true
+        source: ./user/.env
+        target: /.env
+  user-db:
+    image: docker.io/library/postgres:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=todo-app
+      - POSTGRES_USER=someone
+      - POSTGRES_PASSWORD=some-secure-password
+    volumes:
+      - user-db:/var/lib/postgresql/data
+  todo:
+    image: ghcr.io/xeptore/to-do/todo:latest
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        read_only: true
+        source: ./todo/config.yml
+        target: /config.yml
+      - type: bind
+        read_only: true
+        source: ./todo/.env
+        target: /.env
+  todo-db:
+    image: docker.io/library/postgres:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=todo-app
+      - POSTGRES_USER=someone
+      - POSTGRES_PASSWORD=some-secure-password
+    volumes:
+      - todo-db:/var/lib/postgresql/data
+  nats:
+    image: docker.io/library/nats:latest
+    restart: unless-stopped
+    command:
+      - --addr
+      - nats
+      - --port
+      - "4222"
+volumes:
+  user-db:
+  todo-db:

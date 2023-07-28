@@ -1,0 +1,11 @@
+user:
+  nats_address:
+  grpc_address:
+auth:
+  nats_address:
+  grpc_address:
+todo:
+  grpc_address:
+  nats_address:
+server:
+  listen_addr:
