@@ -28,18 +28,6 @@ func main() {
 
 	log := zerolog.New(zerolog.NewConsoleWriter(func(w *zerolog.ConsoleWriter) { w.Out = os.Stderr; w.TimeFormat = time.RFC3339 })).With().Timestamp().Logger().Level(zerolog.TraceLevel)
 
-	f, err := os.Open("config.yml")
-	if nil != err {
-		if !errors.Is(err, os.ErrNotExist) {
-			log.Fatal().Err(err).Msg("failed to load config.yml")
-		}
-		log.Warn().Msg("config file was not found")
-	}
-	cfg, err := config.FromYaml(ctx, f)
-	if nil != err {
-		log.Fatal().Err(err).Msg("failed to load configuration from config file")
-	}
-
 	if err := godotenv.Load(".env"); nil != err {
 		if !errors.Is(err, os.ErrNotExist) {
 			log.Fatal().Err(err).Msg("unexpected error while loading environment variables from .env file")
@@ -50,6 +38,18 @@ func main() {
 	tz, ok := os.LookupEnv("TZ")
 	if !ok || tz != "UTC" {
 		log.Fatal().Msg("TZ environment variable must be set to UTC")
+	}
+
+	f, err := os.Open("config.yml")
+	if nil != err {
+		if !errors.Is(err, os.ErrNotExist) {
+			log.Fatal().Err(err).Msg("failed to load config.yml")
+		}
+		log.Warn().Msg("config file was not found")
+	}
+	cfg, err := config.FromYaml(ctx, f)
+	if nil != err {
+		log.Fatal().Err(err).Msg("failed to load configuration from config file")
 	}
 
 	userGrpcDialOpts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
