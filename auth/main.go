@@ -51,8 +51,15 @@ func main() {
 		log.Fatal().Msg("TZ environment variable must be set to UTC")
 	}
 
+	userGrpcDialOpts := []grpc.DialOption{grpc.WithInsecure()}
+	userGrpcConn, err := grpc.Dial(cfg.Str("user.grpc_address"), userGrpcDialOpts...)
+	if nil != err {
+		log.Fatal().Err(err).Msg("failed to connect to user grpc service")
+	}
+	userGrpcClient := pb.NewUserServiceClient(userGrpcConn)
+
 	jeydubti := jwt.New([]byte(os.Getenv("JWT_SECRET")))
-	authService := auth.New(jeydubti)
+	authService := auth.New(jeydubti, userGrpcClient)
 	grpcSrv := grpc.NewServer(grpc.ConnectionTimeout(time.Second*3), grpc.MaxConcurrentStreams(10))
 	pb.RegisterAuthServiceServer(grpcSrv, authService)
 
@@ -80,6 +87,7 @@ func main() {
 		log.Fatal().Err(err).Msg("failed to subscribe to nats request stream")
 	}
 
+	done := make(chan bool)
 	go func() {
 		<-ctx.Done()
 		log.Info().Msg("executing cleanup tasks as on root context cancellation...")
@@ -89,10 +97,17 @@ func main() {
 		if err := sub.Drain(); nil != err {
 			log.Error().Err(err).Msg("failed to drain nats subscription")
 		}
+		if err := userGrpcConn.Close(); nil != err {
+			log.Error().Err(err).Msg("failed to close user service grpc client connection")
+		}
 		grpcSrv.GracefulStop()
+		done <- true
 	}()
 
 	if err := grpcSrv.Serve(lis); nil != err {
+		cancel()
+		<-done
 		log.Fatal().Err(err).Msg("failed to start grpc server")
 	}
+	<-done
 }

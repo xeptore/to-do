@@ -14,8 +14,8 @@ type AuthService struct {
 	u pb.UserServiceClient
 }
 
-func New(j jwt.JWT) *AuthService {
-	return &AuthService{j: j}
+func New(j jwt.JWT, u pb.UserServiceClient) *AuthService {
+	return &AuthService{j: j, u: u}
 }
 
 func (s *AuthService) VerifyToken(ctx context.Context, in *pb.VerifyTokenRequest) (*pb.VerifyTokenReply, error) {

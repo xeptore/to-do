@@ -79,6 +79,7 @@ func main() {
 		log.Fatal().Err(err).Msg("failed to subscribe to nats request stream")
 	}
 
+	done := make(chan bool)
 	go func() {
 		<-ctx.Done()
 		log.Info().Msg("executing cleanup tasks as on root context cancellation...")
@@ -89,9 +90,13 @@ func main() {
 			log.Error().Err(err).Msg("failed to drain nats subscription")
 		}
 		grpcSrv.GracefulStop()
+		done <- true
 	}()
 
 	if err := grpcSrv.Serve(lis); nil != err {
+		cancel()
+		<-done
 		log.Fatal().Err(err).Msg("failed to start grpc server")
 	}
+	<-done
 }
