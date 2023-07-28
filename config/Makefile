@@ -4,5 +4,5 @@ tidy:
 
 .PHONY: up
 up:
-	go get -u -d -d ./...
+	go list  -f '{{ range .Imports }}{{ printf "%s\n" . }}{{ end }}' ./... | grep github.com/xeptore/to-do/ | xargs -r go get -u -d -d
 	$(MAKE) tidy

@@ -9,8 +9,8 @@ require (
 	github.com/nats-io/nats.go v1.28.0
 	github.com/pressly/goose/v3 v3.14.0
 	github.com/rs/zerolog v1.29.1
-	github.com/xeptore/to-do/api v0.0.0-20230728143627-b5f4efd8cdf1
-	github.com/xeptore/to-do/config v0.0.0-20230728143627-b5f4efd8cdf1
+	github.com/xeptore/to-do/api v0.0.0-20230728172756-a89760109df0
+	github.com/xeptore/to-do/config v0.0.0-20230728172756-a89760109df0
 	google.golang.org/grpc v1.57.0
 )
 
