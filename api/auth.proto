@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package userssrv;
 
-option go_package = "/pb";
+option go_package = "/auth";
 
 service AuthService {
   rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenReply);

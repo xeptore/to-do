@@ -12,7 +12,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
-	"github.com/xeptore/to-do/api/pb"
+	pbuser "github.com/xeptore/to-do/api/pb/user"
 	"github.com/xeptore/to-do/config"
 	"google.golang.org/grpc"
 
@@ -57,7 +57,7 @@ func main() {
 
 	userService := user.New(database)
 	grpcSrv := grpc.NewServer(grpc.ConnectionTimeout(time.Second*3), grpc.MaxConcurrentStreams(10))
-	pb.RegisterUserServiceServer(grpcSrv, userService)
+	pbuser.RegisterUserServiceServer(grpcSrv, userService)
 	lis, err := net.Listen("tcp", cfg.Str("grpc.listen_address"))
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to bind grpc server to address")

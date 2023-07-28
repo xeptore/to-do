@@ -9,19 +9,20 @@ import (
 	"github.com/xeptore/to-do/auth/auth"
 	"github.com/xeptore/to-do/user/user"
 
-	"github.com/xeptore/to-do/api/pb"
+	pbauth "github.com/xeptore/to-do/api/pb/auth"
+	pbuser "github.com/xeptore/to-do/api/pb/user"
 )
 
 type Server struct {
-	userGrpc pb.UserServiceClient
-	authGrpc pb.AuthServiceClient
+	userGrpc pbuser.UserServiceClient
+	authGrpc pbauth.AuthServiceClient
 	userNats *nats.EncodedConn
 	authNats *nats.EncodedConn
 }
 
 func NewServer(
-	userGrpc pb.UserServiceClient,
-	authGrpc pb.AuthServiceClient,
+	userGrpc pbuser.UserServiceClient,
+	authGrpc pbauth.AuthServiceClient,
 	userNats *nats.EncodedConn,
 	authNats *nats.EncodedConn,
 ) *Server {

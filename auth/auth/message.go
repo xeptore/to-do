@@ -7,7 +7,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/tidwall/gjson"
 
-	"github.com/xeptore/to-do/api/pb"
+	pbuser "github.com/xeptore/to-do/api/pb/user"
 )
 
 func (s *AuthService) HandleMessage(ctx context.Context, msg *nats.Msg) []byte {
@@ -37,7 +37,7 @@ func (s *AuthService) Login(ctx context.Context, in string) []byte {
 
 	}
 
-	res, err := s.u.VerifyPassword(ctx, &pb.VerifyPasswordRequest{Email: req.Email, Password: req.Password})
+	res, err := s.u.VerifyPassword(ctx, &pbuser.VerifyPasswordRequest{Email: req.Email, Password: req.Password})
 	if nil != err {
 		return []byte("user email/password verification failed")
 	}

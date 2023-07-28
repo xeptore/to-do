@@ -13,9 +13,11 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
-	"github.com/xeptore/to-do/api/pb"
+	pbauth "github.com/xeptore/to-do/api/pb/auth"
+	pbuser "github.com/xeptore/to-do/api/pb/user"
 	"github.com/xeptore/to-do/config"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/xeptore/to-do/gateway/api"
 )
@@ -68,17 +70,17 @@ func main() {
 		log.Fatal().Err(err).Msg("failed to initialize auth nats json-encoded connection")
 	}
 
-	userGrpcConn, err := grpc.Dial(cfg.Str("user.grpc_address"), []grpc.DialOption{grpc.WithInsecure()}...)
+	userGrpcConn, err := grpc.Dial(cfg.Str("user.grpc_address"), []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}...)
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to connect to user grpc service")
 	}
-	userGrpcClient := pb.NewUserServiceClient(userGrpcConn)
+	userGrpcClient := pbuser.NewUserServiceClient(userGrpcConn)
 
-	authGrpcConn, err := grpc.Dial(cfg.Str("auth.grpc_address"), []grpc.DialOption{grpc.WithInsecure()}...)
+	authGrpcConn, err := grpc.Dial(cfg.Str("auth.grpc_address"), []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}...)
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to connect to auth grpc service")
 	}
-	authGrpcClient := pb.NewAuthServiceClient(authGrpcConn)
+	authGrpcClient := pbauth.NewAuthServiceClient(authGrpcConn)
 
 	srv := api.NewServer(userGrpcClient, authGrpcClient, userNatsClient, authNatsClient)
 

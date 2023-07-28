@@ -12,9 +12,11 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
-	"github.com/xeptore/to-do/api/pb"
+	pbauth "github.com/xeptore/to-do/api/pb/auth"
+	pbuser "github.com/xeptore/to-do/api/pb/user"
 	"github.com/xeptore/to-do/config"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/xeptore/to-do/auth/auth"
 	"github.com/xeptore/to-do/auth/jwt"
@@ -50,17 +52,17 @@ func main() {
 		log.Fatal().Msg("TZ environment variable must be set to UTC")
 	}
 
-	userGrpcDialOpts := []grpc.DialOption{grpc.WithInsecure()}
+	userGrpcDialOpts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 	userGrpcConn, err := grpc.Dial(cfg.Str("user.grpc_address"), userGrpcDialOpts...)
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to connect to user grpc service")
 	}
-	userGrpcClient := pb.NewUserServiceClient(userGrpcConn)
+	userGrpcClient := pbuser.NewUserServiceClient(userGrpcConn)
 
 	jeydubti := jwt.New([]byte(os.Getenv("JWT_SECRET")))
 	authService := auth.New(jeydubti, userGrpcClient)
 	grpcSrv := grpc.NewServer(grpc.ConnectionTimeout(time.Second*3), grpc.MaxConcurrentStreams(10))
-	pb.RegisterAuthServiceServer(grpcSrv, authService)
+	pbauth.RegisterAuthServiceServer(grpcSrv, authService)
 
 	lis, err := net.Listen("tcp", cfg.Str("grpc.listen_address"))
 	if nil != err {
