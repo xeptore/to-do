@@ -2,16 +2,19 @@ package main
 
 import (
 	"context"
+	"errors"
 	"net"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc"
 
+	"github.com/xeptore/to-do/user/db"
 	"github.com/xeptore/to-do/user/internal/pb"
 	"github.com/xeptore/to-do/user/user"
 )
@@ -19,8 +22,27 @@ import (
 func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
+
 	log := zerolog.New(zerolog.NewConsoleWriter(func(w *zerolog.ConsoleWriter) { w.Out = os.Stderr; w.TimeFormat = time.RFC3339 })).With().Timestamp().Logger().Level(zerolog.TraceLevel)
-	userService := user.New(nil)
+
+	if err := godotenv.Load(".env"); nil != err {
+		if !errors.Is(err, os.ErrNotExist) {
+			log.Fatal().Err(err).Msg("unexpected error while loading environment variables from .env file")
+		}
+		log.Warn().Msg(".env file not found")
+	}
+
+	tz, ok := os.LookupEnv("TZ")
+	if !ok || tz != "UTC" {
+		log.Fatal().Msg("TZ environment variable must be set to UTC")
+	}
+
+	database, err := db.Connect(ctx)
+	if nil != err {
+		log.Fatal().Err(err).Msg("failed to connect to database")
+	}
+
+	userService := user.New(database)
 	grpcSrv := grpc.NewServer(grpc.ConnectionTimeout(time.Second*3), grpc.MaxConcurrentStreams(10))
 	pb.RegisterUserServiceServer(grpcSrv, userService)
 	lis, err := net.Listen("tcp", ":50051")
