@@ -9,6 +9,11 @@ clean:
 tidy:
 	go mod tidy -v -x
 
+.PHONY: up
+up:
+	go get -u -d -d ./...
+	$(MAKE) tidy
+
 .PHONY: gen-db
 gen-db:
 	go run github.com/joho/godotenv/cmd/godotenv@latest -f .env go generate ./db/gen/gen.go

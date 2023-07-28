@@ -171,10 +171,10 @@ github.com/volatiletech/inflect v0.0.1/go.mod h1:IBti31tG6phkHitLlr5j7shC5SOo//x
 github.com/volatiletech/null/v8 v8.1.2/go.mod h1:98DbwNoKEpRrYtGjWFctievIfm4n4MxG0A6EBUcoS5g=
 github.com/volatiletech/randomize v0.0.1/go.mod h1:GN3U0QYqfZ9FOJ67bzax1cqZ5q2xuj2mXrXBjWaRTlY=
 github.com/volatiletech/strmangle v0.0.1/go.mod h1:F6RA6IkB5vq0yTG4GQ0UsbbRcl3ni9P76i+JrTBKFFg=
-github.com/xeptore/to-do/api v0.0.0-20230728114642-e8d4a6b2cf12 h1:vopVeiCeooejEhT3X5oLpR5YXepffJnynonZrCgsNm0=
-github.com/xeptore/to-do/api v0.0.0-20230728114642-e8d4a6b2cf12/go.mod h1:UxYoQQOjs76lsQ/8YqhVTCqxqbbDPrObf6CGoCXcUI4=
-github.com/xeptore/to-do/config v0.0.0-20230728114642-e8d4a6b2cf12 h1:hbF3zBOwc67JrBjjxlizL5eCNwKntjxVmDNjpU7pNpM=
-github.com/xeptore/to-do/config v0.0.0-20230728114642-e8d4a6b2cf12/go.mod h1:ZHZCL9E+aPzeaCdVBV6ifbslGl+I5lpljxpTNMGs+3A=
+github.com/xeptore/to-do/api v0.0.0-20230728122932-3b7f5e972fc2 h1:aUPn297F4lIWqkaEiW9Y6fVMM7dUSmlAbXfOIJqFDFo=
+github.com/xeptore/to-do/api v0.0.0-20230728122932-3b7f5e972fc2/go.mod h1:1maNgilq3WxQlqc2WiuP4KkUJLyKPhmEirUwmEVlY3A=
+github.com/xeptore/to-do/config v0.0.0-20230728122932-3b7f5e972fc2 h1:kaJc+GCG9rdqyqkD8CU7jFv6AZVaURWBsu+g4bjYEHw=
+github.com/xeptore/to-do/config v0.0.0-20230728122932-3b7f5e972fc2/go.mod h1:VYv5Zi3piOHzszjehdpvaR/E9UCsmj6qwtxVLWaxkeY=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 github.com/zenazn/goji v0.9.0/go.mod h1:7S9M489iMyHBNxwZnk9/EHS098H4/F6TATF2mIxtB1Q=
 go.uber.org/atomic v1.3.2/go.mod h1:gD2HeocX3+yG+ygLZcrzQJaqmWj9AIm7n08wl/qW/PE=

@@ -8,10 +8,10 @@ require (
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/nats-io/nats.go v1.28.0
 	github.com/rs/zerolog v1.29.1
-	github.com/xeptore/to-do/api v0.0.0-20230728114642-e8d4a6b2cf12
-	github.com/xeptore/to-do/auth v0.0.0-20230728114642-e8d4a6b2cf12
-	github.com/xeptore/to-do/config v0.0.0-20230728114642-e8d4a6b2cf12
-	github.com/xeptore/to-do/user v0.0.0-20230728114642-e8d4a6b2cf12
+	github.com/xeptore/to-do/api v0.0.0-20230728122932-3b7f5e972fc2
+	github.com/xeptore/to-do/auth v0.0.0-20230728122932-3b7f5e972fc2
+	github.com/xeptore/to-do/config v0.0.0-20230728122932-3b7f5e972fc2
+	github.com/xeptore/to-do/user v0.0.0-20230728122932-3b7f5e972fc2
 	google.golang.org/grpc v1.57.0
 )
 

@@ -72,10 +72,10 @@ github.com/tidwall/match v1.1.1/go.mod h1:eRSPERbgtNPcGhD8UCthc6PmLEQXEWd3PRB5JT
 github.com/tidwall/pretty v1.2.0/go.mod h1:ITEVvHYasfjBbM0u2Pg8T2nJnzm8xPwvNhhsoaGGjNU=
 github.com/tidwall/pretty v1.2.1 h1:qjsOFOWWQl+N3RsoF5/ssm1pHmJJwhjlSbZ51I6wMl4=
 github.com/tidwall/pretty v1.2.1/go.mod h1:ITEVvHYasfjBbM0u2Pg8T2nJnzm8xPwvNhhsoaGGjNU=
-github.com/xeptore/to-do/api v0.0.0-20230728114642-e8d4a6b2cf12 h1:vopVeiCeooejEhT3X5oLpR5YXepffJnynonZrCgsNm0=
-github.com/xeptore/to-do/api v0.0.0-20230728114642-e8d4a6b2cf12/go.mod h1:UxYoQQOjs76lsQ/8YqhVTCqxqbbDPrObf6CGoCXcUI4=
-github.com/xeptore/to-do/config v0.0.0-20230728114642-e8d4a6b2cf12 h1:hbF3zBOwc67JrBjjxlizL5eCNwKntjxVmDNjpU7pNpM=
-github.com/xeptore/to-do/config v0.0.0-20230728114642-e8d4a6b2cf12/go.mod h1:ZHZCL9E+aPzeaCdVBV6ifbslGl+I5lpljxpTNMGs+3A=
+github.com/xeptore/to-do/api v0.0.0-20230728122932-3b7f5e972fc2 h1:aUPn297F4lIWqkaEiW9Y6fVMM7dUSmlAbXfOIJqFDFo=
+github.com/xeptore/to-do/api v0.0.0-20230728122932-3b7f5e972fc2/go.mod h1:1maNgilq3WxQlqc2WiuP4KkUJLyKPhmEirUwmEVlY3A=
+github.com/xeptore/to-do/config v0.0.0-20230728122932-3b7f5e972fc2 h1:kaJc+GCG9rdqyqkD8CU7jFv6AZVaURWBsu+g4bjYEHw=
+github.com/xeptore/to-do/config v0.0.0-20230728122932-3b7f5e972fc2/go.mod h1:VYv5Zi3piOHzszjehdpvaR/E9UCsmj6qwtxVLWaxkeY=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20210921155107-089bfa567519/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
