@@ -1,6 +1,8 @@
 FROM docker.io/library/golang:1-alpine AS build
 RUN apk update && apk upgrade && apk add --no-cache make jq tar xz musl-dev linux-headers
 WORKDIR /app
+ENV GOPRIVATE=github.com/xeptore/to-do
+ENV GOPROXY=https://goproxy.io,direct
 COPY go.mod go.sum ./
 RUN go mod download -x
 COPY . .

@@ -12,6 +12,7 @@ require (
 	github.com/pressly/goose/v3 v3.14.0
 	github.com/rs/zerolog v1.29.1
 	github.com/tidwall/gjson v1.15.0
+	github.com/xeptore/to-do/config v0.0.0-20230728053945-a92b8ccd8cc5
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.30.0
 )
@@ -21,6 +22,7 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
+	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/nats-io/nats-server/v2 v2.9.20 // indirect
