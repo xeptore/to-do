@@ -14,6 +14,8 @@ import (
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc"
 
+	"github.com/xeptore/to-do/config"
+
 	"github.com/xeptore/to-do/auth/auth"
 	"github.com/xeptore/to-do/auth/internal/pb"
 	"github.com/xeptore/to-do/auth/jwt"
@@ -24,6 +26,18 @@ func main() {
 	defer cancel()
 
 	log := zerolog.New(zerolog.NewConsoleWriter(func(w *zerolog.ConsoleWriter) { w.Out = os.Stderr; w.TimeFormat = time.RFC3339 })).With().Timestamp().Logger().Level(zerolog.TraceLevel)
+
+	f, err := os.Open("config.yml")
+	if nil != err {
+		if !errors.Is(err, os.ErrNotExist) {
+			log.Fatal().Err(err).Msg("failed to load config.yml")
+		}
+		log.Warn().Msg("config file was not found")
+	}
+	cfg, err := config.Load(ctx, f)
+	if nil != err {
+		log.Fatal().Err(err).Msg("failed to load configuration from config file")
+	}
 
 	if err := godotenv.Load(".env"); nil != err {
 		if !errors.Is(err, os.ErrNotExist) {
@@ -41,12 +55,13 @@ func main() {
 	authService := auth.New(jeydubti)
 	grpcSrv := grpc.NewServer(grpc.ConnectionTimeout(time.Second*3), grpc.MaxConcurrentStreams(10))
 	pb.RegisterAuthServiceServer(grpcSrv, authService)
-	lis, err := net.Listen("tcp", ":50051")
+
+	lis, err := net.Listen("tcp", cfg.Str("grpc.listen_address"))
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to bind grpc server to address")
 	}
 
-	conn, err := nats.Connect("nats://localhost:4222")
+	conn, err := nats.Connect(cfg.Str("nats.address"))
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to connect to nats server")
 	}

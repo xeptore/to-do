@@ -14,6 +14,8 @@ import (
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc"
 
+	"github.com/xeptore/to-do/config"
+
 	"github.com/xeptore/to-do/user/db"
 	"github.com/xeptore/to-do/user/internal/pb"
 	"github.com/xeptore/to-do/user/user"
@@ -37,6 +39,18 @@ func main() {
 		log.Fatal().Msg("TZ environment variable must be set to UTC")
 	}
 
+	f, err := os.Open("config.yml")
+	if nil != err {
+		if !errors.Is(err, os.ErrNotExist) {
+			log.Fatal().Err(err).Msg("failed to load config.yml")
+		}
+		log.Warn().Msg("config file was not found")
+	}
+	cfg, err := config.Load(ctx, f)
+	if nil != err {
+		log.Fatal().Err(err).Msg("failed to load configuration from config file")
+	}
+
 	database, err := db.Connect(ctx)
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to connect to database")
@@ -45,12 +59,12 @@ func main() {
 	userService := user.New(database)
 	grpcSrv := grpc.NewServer(grpc.ConnectionTimeout(time.Second*3), grpc.MaxConcurrentStreams(10))
 	pb.RegisterUserServiceServer(grpcSrv, userService)
-	lis, err := net.Listen("tcp", ":50051")
+	lis, err := net.Listen("tcp", cfg.Str("grpc.listen_address"))
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to bind grpc server to address")
 	}
 
-	nc, err := nats.Connect("nats://localhost:4222")
+	nc, err := nats.Connect(cfg.Str("nats.address"))
 	if nil != err {
 		log.Fatal().Err(err).Msg("failed to connect to nats server")
 	}
