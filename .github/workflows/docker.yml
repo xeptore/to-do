@@ -21,48 +21,6 @@ concurrency:
   cancel-in-progress: true
   group: ${{ format('{0}-{1}', github.event_name, github.ref_name) }}
 jobs:
-  build:
-    name: Build & Upload - ${{ matrix.package }}
-    permissions:
-      contents: read
-    runs-on: ubuntu-latest
-    container:
-      image: docker.io/library/golang:1-alpine
-    strategy:
-      matrix:
-        package:
-          - auth
-          - user
-          - gateway
-    steps:
-      - name: Update Packages
-        run: |
-          apk update && apk upgrade && apk add --no-cache make jq tar xz musl-dev linux-headers git
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Build
-        working-directory: ./${{ matrix.package }}
-        run: make build-clean
-      - name: UPX
-        working-directory: ./${{ matrix.package }}
-        run: |
-          set -xe
-          export temp_dir=$(mktemp -d)
-          cd "$temp_dir"
-          wget https://github.com/upx/upx/releases/download/v4.0.2/upx-4.0.2-amd64_linux.tar.xz
-          tar -xvf upx-4.0.2-amd64_linux.tar.xz upx-4.0.2-amd64_linux/upx
-          mv ./upx-4.0.2-amd64_linux/upx .
-          cd -
-          "$temp_dir/upx" --no-color --mono --no-progress --ultra-brute --no-backup ./bin/${{ matrix.package }}
-          "$temp_dir/upx" --test ./bin/${{ matrix.package }}
-          rm -rfv "$temp_dir"
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.package }}
-          path: ./${{ matrix.package }}/bin/${{ matrix.package }}
   docker:
     name: Build Docker Image - ${{ matrix.package }}
     runs-on: ubuntu-latest
@@ -75,6 +33,7 @@ jobs:
           - auth
           - user
           - gateway
+          - todo
       fail-fast: false
     steps:
       - name: Checkout
