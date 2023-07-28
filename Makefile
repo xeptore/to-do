@@ -1,6 +1,6 @@
 .PHONY: tidy
 tidy:
-	for app in user auth; do $(MAKE) -C $${app} tidy; done
+	for app in config user auth; do $(MAKE) -C $${app} tidy; done
 
 .PHONY: gen
 gen:
