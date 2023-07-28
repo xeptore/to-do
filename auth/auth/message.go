@@ -7,7 +7,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/tidwall/gjson"
 
-	"github.com/xeptore/to-do/auth/internal/pb"
+	"github.com/xeptore/to-do/api/pb"
 )
 
 func (s *AuthService) HandleMessage(ctx context.Context, msg *nats.Msg) []byte {

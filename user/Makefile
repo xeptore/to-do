@@ -1,11 +1,5 @@
-.PHONY: gen-proto
-gen-proto:
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	protoc --go_out=./internal --go-grpc_out=./internal --proto_path=../api user.proto
-
 .PHONY: gen
-gen: gen-proto gen-db
+gen: gen-db
 
 .PHONY: clean
 clean:

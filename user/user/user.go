@@ -7,12 +7,12 @@ import (
 
 	"github.com/go-jet/jet/v2/postgres"
 	"github.com/go-jet/jet/v2/qrm"
+	"github.com/xeptore/to-do/api/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	m "github.com/xeptore/to-do/user/db/gen/todo/public/model"
 	t "github.com/xeptore/to-do/user/db/gen/todo/public/table"
-	"github.com/xeptore/to-do/user/internal/pb"
 )
 
 type UserService struct {

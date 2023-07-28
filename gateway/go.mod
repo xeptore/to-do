@@ -12,7 +12,6 @@ require (
 	github.com/xeptore/to-do/config v0.0.0-20230728053945-a92b8ccd8cc5
 	github.com/xeptore/to-do/user v0.0.0-20230728064748-36d3fa33549d
 	google.golang.org/grpc v1.57.0
-	google.golang.org/protobuf v1.30.0
 )
 
 require (
@@ -47,5 +46,6 @@ require (
 	golang.org/x/text v0.11.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230525234030-28d5490b6b19 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

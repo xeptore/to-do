@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/xeptore/to-do/auth/internal/pb"
+	"github.com/xeptore/to-do/api/pb"
 	"github.com/xeptore/to-do/auth/jwt"
 )
 

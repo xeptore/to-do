@@ -12,12 +12,11 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
+	"github.com/xeptore/to-do/api/pb"
+	"github.com/xeptore/to-do/config"
 	"google.golang.org/grpc"
 
-	"github.com/xeptore/to-do/config"
-
 	"github.com/xeptore/to-do/auth/auth"
-	"github.com/xeptore/to-do/auth/internal/pb"
 	"github.com/xeptore/to-do/auth/jwt"
 )
 

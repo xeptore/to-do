@@ -13,11 +13,11 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
+	"github.com/xeptore/to-do/api/pb"
 	"github.com/xeptore/to-do/config"
 	"google.golang.org/grpc"
 
 	"github.com/xeptore/to-do/gateway/api"
-	"github.com/xeptore/to-do/gateway/internal/pb"
 )
 
 func main() {

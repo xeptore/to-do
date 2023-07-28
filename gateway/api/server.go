@@ -9,7 +9,7 @@ import (
 	"github.com/xeptore/to-do/auth/auth"
 	"github.com/xeptore/to-do/user/user"
 
-	"github.com/xeptore/to-do/gateway/internal/pb"
+	"github.com/xeptore/to-do/api/pb"
 )
 
 type Server struct {
