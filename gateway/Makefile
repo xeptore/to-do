@@ -6,6 +6,11 @@ clean:
 tidy:
 	go mod tidy -v -x
 
+.PHONY: up
+up:
+	go get -u -d -d ./...
+	$(MAKE) tidy
+
 .PHONY: build-clean
 build-clean: clean build
 

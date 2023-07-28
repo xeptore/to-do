@@ -2,6 +2,10 @@
 tidy:
 	for app in config api user auth gateway; do $(MAKE) -C $${app} tidy; done
 
+.PHONY: up
+up:
+	for app in config api user auth gateway; do $(MAKE) -C $${app} up; done
+
 .PHONY: gen
 gen: gen-proto
 	$(MAKE) -C user gen
