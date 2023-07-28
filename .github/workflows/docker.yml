@@ -61,7 +61,7 @@ jobs:
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: bot
+          name: ${{ matrix.package }}
           path: ./${{ matrix.package }}/bin/${{ matrix.package }}
   docker:
     name: Build Docker Image - ${{ matrix.package }}
