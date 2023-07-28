@@ -22,7 +22,7 @@ concurrency:
   group: ${{ format('{0}-{1}', github.event_name, github.ref_name) }}
 jobs:
   main:
-    name: Build And Publish Docker Images
+    name: Build Docker Image - ${{ matrix.package }}
     runs-on: ubuntu-latest
     permissions:
       packages: write
