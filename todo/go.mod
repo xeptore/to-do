@@ -11,7 +11,7 @@ require (
 	github.com/rs/zerolog v1.29.1
 	github.com/xeptore/to-do/api v0.0.0-20230728172756-a89760109df0
 	github.com/xeptore/to-do/config v0.0.0-20230728172756-a89760109df0
-	google.golang.org/grpc v1.57.0
+	google.golang.org/grpc v1.57.1
 )
 
 require (
